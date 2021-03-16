@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Entities.DTOs.MonthlyReportDetailDto>
+@{
+    ViewData["Title"] = "Reports";
+}
+<div class="justify-content-center">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+            <th>Brand</th>
+            <th>ProductName</th>
+            <th>Month</th>
+            <th>Profit</th>
+            <th></th>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.BrandName</td>
+                    <td>@item.ProductName</td>
+                    <td>@item.Month</td>
+                    <td>@item.Profit</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
