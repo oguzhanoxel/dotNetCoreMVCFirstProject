@@ -6,6 +6,35 @@
     <title>@ViewData["Title"] - WebApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <script>
+        window.onload = function () {
+            var dataP = @Html.Raw(ViewBag.ProductsDataPoints)
+            var dataName = @Html.Raw(ViewBag.ProductsName)
+                console.log(dataP)
+            console.log(dataName)
+            const copy = [];
+            for (let i = 0; i < dataP.length; i++) {
+                copy.push({
+                    name: dataName[i],
+                    type: "line",
+                    dataPoints: dataP[i]
+                },)
+            }
+            console.log(copy)
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                title: {
+                    text: "Products Profit By Month"
+                },
+                toolTip: {
+                    shared: true
+                },
+                data: copy
+            });
+            chart.render();
+
+            }
+    </script>
 </head>
 <body>
     <header>
@@ -40,6 +69,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -3,21 +3,23 @@
     ViewData["Title"] = "Reports";
 }
 <div class="justify-content-center">
+
+    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+
     <div class="col-md-12">
         <table class="table">
             <thead>
             <th>Brand</th>
-            <th>ProductName</th>
             <th>Month</th>
+            <th>ProductName</th>
             <th>Profit</th>
-            <th></th>
             </thead>
             @foreach (var item in Model)
             {
                 <tr>
                     <td>@item.BrandName</td>
-                    <td>@item.ProductName</td>
                     <td>@item.Month</td>
+                    <td>@item.ProductName</td>
                     <td>@item.Profit</td>
                 </tr>
             }

@@ -1,6 +1,9 @@
-﻿using DataAccess.Abstract;
+﻿using Core.Entities;
+using DataAccess.Abstract;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -42,8 +45,25 @@ namespace WebApp.Controllers
             {
                 return new BadRequestResult();
             }
-            var filteredReports = monthlyReports.Where(m => m.BrandId == ID);
-            return View(filteredReports);
+            var filteredReportsByBrand = monthlyReports.Where(m => m.BrandId == ID);
+
+            List<List<DataPoint>> productsDataPoints = new List<List<DataPoint>>();
+            List<string> productsName = new List<string>();
+            foreach (var item1 in _productDal.GetProductDetails().Where(p => p.BrandId==ID))
+            {
+                List<DataPoint> subReport = new List<DataPoint>();
+                foreach (var item in filteredReportsByBrand.Where(m => m.ProductId == item1.Id))
+                {
+                    subReport.Add(new DataPoint(item.ProductName, item.Month, Decimal.ToDouble(item.Profit)));
+                }
+                productsDataPoints.Add(subReport);
+                productsName.Add(item1.ProductName);
+            }
+
+            ViewBag.ProductsDataPoints = JsonConvert.SerializeObject(productsDataPoints);
+            ViewBag.ProductsName = JsonConvert.SerializeObject(productsName);
+
+            return View(filteredReportsByBrand);
         }
     }
 }
